@@ -26,6 +26,11 @@ public class negocio_personas implements negocio_personas_interface{
 		// TODO Auto-generated method stub
 		return dao_p.Obtener_lista_usuarios();
 	}
+	@Override
+	public boolean EliminarPersona(String dni) {
+		// TODO Auto-generated method stub
+		return dao_p.EliminarPersona(dni);
+	}
 	
 }
 		

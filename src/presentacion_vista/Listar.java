@@ -7,13 +7,15 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
+import controlador.controlador;
+
 import java.util.List;
 
 import javax.swing.JButton;
 
 
 public class Listar extends JPanel {
-
+private controlador controlador;
 private negocio_personas pNeg = new negocio_personas();
 private ArrayList<Personas> personasEnTabla = new ArrayList<Personas>();	
 	
@@ -38,8 +40,6 @@ public void setNombreColumnas(String[] nombreColumnas) {
 	this.nombreColumnas = nombreColumnas;
 }
 
-
-
 private DefaultTableModel modelPersonas;
 private String[] nombreColumnas = {"Nombre completo","Dni"};
 
@@ -62,15 +62,11 @@ private String[] nombreColumnas = {"Nombre completo","Dni"};
 
 		
 		spPersonas.setViewportView(tablaPersonas);
-		refrescarTabla();
+		
 			
 	}
 	
-	private void refrescarTabla()
-	{
-		this.personasEnTabla = (ArrayList<Personas>) pNeg.Obtener_lista_usuarios();
-		llenarTabla(this.personasEnTabla);
-	}
+
 
 	public void llenarTabla(List<Personas> personasEnTabla) {
 		this.getModelPersonas().setRowCount(0); //Para vaciar la tabla

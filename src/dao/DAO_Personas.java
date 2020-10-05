@@ -13,8 +13,8 @@ public class DAO_Personas implements dao_personas{
 	
 	private String host = "jdbc:mysql://localhost:3306/";
 	private String user = "root";
-	private String pass = "root";
-	private String dbName = "dbpersona";
+	private String pass = "ROOT";
+	private String dbName = "bdpersonas";
 	
 	public DAO_Personas() {
 		
@@ -22,7 +22,7 @@ public class DAO_Personas implements dao_personas{
 	
 	public int AgrerarUsuario (Personas personas) {
 		
-		String quety = "Insert into personas (dni, Nombre, Apellido) values ('" + personas.getDni() + "', '" + personas.getNombre() + "', '" + personas.getApellido() + "')";
+		String quety = "Insert into personas (Nombre, Apellido, Dni) values ('" + personas.getDni() + "', '" + personas.getNombre() + "', '" + personas.getApellido() + "')";
 		Connection cn = null;
 		int filas=0;
 		
@@ -106,6 +106,28 @@ public ArrayList<Personas> Obtener_lista_usuarios () {
 		return x;
 		
 	}
+
+public boolean EliminarPersona (String dni) {
 	
+	String query = "Delete from Personas where Dni = '" + dni +"'";
+	Connection cn = null;
+		
+	try{
+		
+		cn = DriverManager.getConnection(host+dbName, user, pass);
+		Statement st = cn.createStatement();
+		 st.executeUpdate(query);
+		
+	}
+	catch(Exception e){
+		
+		e.printStackTrace();
+		return false; 
+	}
+	
+	return true ;
+}
+
+
 }
 
