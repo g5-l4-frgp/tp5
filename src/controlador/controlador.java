@@ -6,12 +6,14 @@ import java.util.ArrayList;
 
 import presentacion_vista.Agregar;
 import presentacion_vista.Listar;
+import presentacion_vista.Modificar;
 import presentacion_vista.Ventana_principal;
 import negocio.negocio_personas;
 import entidad.Personas;
 public class controlador implements ActionListener {
 
 	private Ventana_principal Ventana_principal;
+	private Modificar VentanaModificar;
 	private Agregar ventanaAgregar;
 	private Listar ventanaListar;
 	private negocio_personas pNeg= new negocio_personas();
@@ -29,11 +31,18 @@ public class controlador implements ActionListener {
 					this.ventanaAgregar=ventanaAgregar;
 					this.ventanaAgregar.getBtnAgregar().addActionListener(a->ventanaAgregarPersona(a));
 				}
+	
+public controlador(Modificar ventanaModificar) {
+	
+		this.VentanaModificar=ventanaModificar;
+		this.VentanaModificar.getBtnModificar().addActionListener(a->EventoModificar(a));
+		
+}
 	private void ventanaAgregarPersona(ActionEvent a) {
 		String nombre = this.ventanaAgregar.getNombre_textField().getText();
 		String dni = ventanaAgregar.getDni_textField().getText();
 		String apellido = ventanaAgregar.getApellido_textField().getText();
-		Personas nuevaPersona = new Personas(nombre,apellido,dni);
+		Personas nuevaPersona = new Personas(dni,nombre,apellido);
 		
 		int estado = pNeg.AgrerarUsuario(nuevaPersona);
 		String mensaje;
@@ -51,6 +60,13 @@ public class controlador implements ActionListener {
 		this.ventanaAgregar.mostrarMensaje(mensaje);
 		
 	
+	}
+	
+	private void EventoModificar(ActionEvent a) {
+		String nombre= this.VentanaModificar.getTxtNombre().getText();
+		String dni= VentanaModificar.getTxtDni().getText();
+		String apellido= VentanaModificar.getTxtApellido().getText();
+		
 	}
 
 	@Override

@@ -14,7 +14,7 @@ public class DAO_Personas implements dao_personas{
 	private String host = "jdbc:mysql://localhost:3306/";
 	private String user = "root";
 	private String pass = "root";
-	private String dbName = "dbpersona";
+	private String dbName = "bdpersonas";
 	
 	public DAO_Personas() {
 		
@@ -22,7 +22,7 @@ public class DAO_Personas implements dao_personas{
 	
 	public int AgrerarUsuario (Personas personas) {
 		
-		String quety = "Insert into personas (dni, Nombre, Apellido) values ('" + personas.getDni() + "', '" + personas.getNombre() + "', '" + personas.getApellido() + "')";
+		String quety = "Insert into personas (Dni, Nombre, Apellido) values ('" + personas.getDni() + "', '" + personas.getNombre() + "', '" + personas.getApellido() + "')";
 		Connection cn = null;
 		int filas=0;
 		
