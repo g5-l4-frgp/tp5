@@ -72,6 +72,7 @@ public class Ventana_principal extends JFrame {
 				contentPane.add(pan_eliminar);
 				contentPane.repaint();
 				contentPane.revalidate();
+				controlador controlador =new controlador(pan_eliminar);
 				
 			}
 		});
@@ -88,7 +89,7 @@ public class Ventana_principal extends JFrame {
 				contentPane.add(pan_listar);
 				contentPane.repaint();
 				contentPane.revalidate();
-				
+				controlador controlador =new controlador(pan_listar);	
 			}
 		});
 		mnPersona.add(mntmListar);
@@ -96,6 +97,7 @@ public class Ventana_principal extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(new BorderLayout(0, 0));
 		setContentPane(contentPane);
+		
 	}
 
 }

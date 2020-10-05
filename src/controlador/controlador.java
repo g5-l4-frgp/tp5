@@ -4,13 +4,18 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
+
+import javax.swing.JOptionPane;
+
 import javax.swing.DefaultListModel;
 import javax.swing.JList;
+
 
 import presentacion_vista.Agregar;
 import presentacion_vista.Listar;
 import presentacion_vista.Modificar;
 import presentacion_vista.Ventana_principal;
+import presentacion_vista.Eliminar;
 import negocio.negocio_personas;
 import entidad.Personas;
 public class controlador implements ActionListener {
@@ -19,6 +24,7 @@ public class controlador implements ActionListener {
 	private Modificar VentanaModificar;
 	private Agregar ventanaAgregar;
 	private Listar ventanaListar;
+	private Eliminar ventanaEliminar;
 	private negocio_personas pNeg= new negocio_personas();
 	private ArrayList<Personas> listaPersonas;
 	private DefaultListModel<Personas> mlist;
@@ -36,6 +42,18 @@ public class controlador implements ActionListener {
 					this.ventanaAgregar=ventanaAgregar;
 					this.ventanaAgregar.getBtnAgregar().addActionListener(a->ventanaAgregarPersona(a));
 				}
+
+	public controlador(Listar pan_listar) {
+		
+		this.ventanaListar=pan_listar;
+		this.refrescarTabla();
+	}
+	public controlador(presentacion_vista.Eliminar pan_eliminar) {
+		this.ventanaEliminar=pan_eliminar;
+		this.ventanaEliminar.getBtnEliminar().addActionListener(a->ventanaEliminar(a));
+		// TODO Auto-generated constructor stub
+	}
+
 	
    public controlador(Modificar ventanaModificar) {
 	
@@ -44,6 +62,7 @@ public class controlador implements ActionListener {
 		this.VentanaModificar.getJlist();
 		
 }
+
 	private void ventanaAgregarPersona(ActionEvent a) {
 		String nombre = this.ventanaAgregar.getNombre_textField().getText();
 		String dni = ventanaAgregar.getDni_textField().getText();
@@ -58,8 +77,9 @@ public class controlador implements ActionListener {
 			this.ventanaAgregar.getNombre_textField().setText("");
 			ventanaAgregar.getDni_textField().setText("");
 			ventanaAgregar.getApellido_textField().setText("");
-			this.ventanaAgregar.mostrarMensaje(mensaje);
+			
 		}
+		
 		else
 			mensaje="Persona no agregada, complete todos los campos";
 		
@@ -68,6 +88,22 @@ public class controlador implements ActionListener {
 	
 	}
 	
+
+	public void ventanaEliminar(ActionEvent s)
+	{
+		boolean estado=false;
+		int[] filasSeleccionadas =  ObtenerDni_de_cadena(this.ventanaEliminar.getPersonasEnTabla().getSelectedValue().toString())))
+		for (int fila : filasSeleccionadas)
+		{
+			estado = pNeg.delete(this.personasEnTabla.get(fila));
+			if(estado==true)
+			{
+				String mensaje="Persona eliminada con exito";
+				this.ventanaPrincipal.mostrarMensaje(mensaje);
+			}
+		}
+		this.refrescarTabla();
+
       private void cargarModificar() {
 		
 		pNeg= new negocio_personas();
@@ -91,8 +127,22 @@ public class controlador implements ActionListener {
 		String dni= VentanaModificar.getTxtDni().getText();
 		String apellido= VentanaModificar.getTxtApellido().getText();
 		
+
 	}
 
+	
+	public void actionPerformed(ActionEvent e) {
+		
+		if (pNeg.EliminarPersona(ObtenerDni_de_cadena(list.getSelectedValue().toString())))
+			JOptionPane.showMessageDialog(null,"Usuario Eliminado" );
+		else JOptionPane.showMessageDialog(null,"ERROR" );		
+	}
+	
+	public void refrescarTabla()
+	{
+		this.listaPersonas = (ArrayList<Personas>) pNeg.Obtener_lista_usuarios();
+		this.ventanaListar.llenarTabla(listaPersonas);
+	}
 	@Override
 	public void actionPerformed(ActionEvent arg0) {}
 	
