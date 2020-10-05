@@ -2,43 +2,100 @@ package presentacion_vista;
 
 import javax.swing.JPanel;
 import javax.swing.JList;
+import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import java.awt.Font;
+import java.util.ArrayList;
+
 import javax.swing.JTextField;
+import javax.swing.event.ListSelectionListener;
+
+import entidad.Personas;
+import negocio.negocio_personas;
+
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.JTable;
 
 public class Modificar extends JPanel {
-	private JTextField textField_1;
-	private JTextField textField;
-	private JTextField textField_2;
-
+	private JTextField txtNombre;
+	private JTextField txtApellido;
+	private JTextField txtDni;
+	private JButton btnModificar;
+    private JList<Personas> list;
 	
 	public Modificar() {
 		setLayout(null);
 		
-		JList list = new JList();
+		 list = new JList();
+		list.addListSelectionListener(new ListSelectionListener() {
+			public void valueChanged(ListSelectionEvent e) {
+			
+				
+			}
+		});
 		list.setBounds(10, 11, 380, 187);
 		add(list);
 		
-		JButton btnNewButton = new JButton("Modificar");
-		btnNewButton.setFont(new Font("Tahoma", Font.BOLD, 11));
-		btnNewButton.setBounds(280, 220, 107, 29);
-		add(btnNewButton);
+		btnModificar = new JButton("Modificar");
+		btnModificar.setFont(new Font("Tahoma", Font.BOLD, 11));
+		btnModificar.setBounds(280, 220, 107, 29);
+		add(btnModificar);
 		
-		textField_1 = new JTextField();
-		textField_1.setColumns(10);
-		textField_1.setBounds(10, 220, 80, 24);
-		add(textField_1);
+		txtNombre = new JTextField();
+		txtNombre.setColumns(10);
+		txtNombre.setBounds(10, 220, 80, 24);
+		add(txtNombre);
 		
-		textField = new JTextField();
-		textField.setColumns(10);
-		textField.setBounds(100, 220, 80, 24);
-		add(textField);
+		txtApellido = new JTextField();
+		txtApellido.setColumns(10);
+		txtApellido.setBounds(100, 220, 80, 24);
+		add(txtApellido);
 		
-		textField_2 = new JTextField();
-		textField_2.setColumns(10);
-		textField_2.setBounds(190, 220, 80, 24);
-		add(textField_2);
+		txtDni = new JTextField();
+		txtDni.setColumns(10);
+		txtDni.setBounds(190, 220, 80, 24);
+		add(txtDni);
 
 	}
+
+
+	public JTextField getTxtNombre() {
+		return txtNombre;
+	}
+
+
+	public void setTxtNombre(JTextField txtNombre) {
+		this.txtNombre = txtNombre;
+	}
+
+
+	public JTextField getTxtApellido() {
+		return txtApellido;
+	}
+
+
+	public void setTxtApellido(JTextField txtApellido) {
+		this.txtApellido = txtApellido;
+	}
+
+
+	public JTextField getTxtDni() {
+		return txtDni;
+	}
+
+
+	public void setTxtDni(JTextField txtDni) {
+		this.txtDni = txtDni;
+	}
+	
+	public JButton getBtnModificar() {
+		return btnModificar;
+	}
+	
+	public JList<Personas> getJlist() {
+		return list;
+	}
+	
+	
 
 }
