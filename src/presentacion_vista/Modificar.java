@@ -2,12 +2,16 @@ package presentacion_vista;
 
 import javax.swing.JPanel;
 import javax.swing.JList;
+import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import java.awt.Font;
+import java.util.ArrayList;
+
 import javax.swing.JTextField;
 import javax.swing.event.ListSelectionListener;
 
 import entidad.Personas;
+import negocio.negocio_personas;
 
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.JTable;
@@ -17,15 +21,15 @@ public class Modificar extends JPanel {
 	private JTextField txtApellido;
 	private JTextField txtDni;
 	private JButton btnModificar;
-
+    private JList<Personas> list;
 	
 	public Modificar() {
 		setLayout(null);
 		
-		JList list = new JList();
+		 list = new JList();
 		list.addListSelectionListener(new ListSelectionListener() {
 			public void valueChanged(ListSelectionEvent e) {
-				Personas persona= new Personas();
+			
 				
 			}
 		});
@@ -87,5 +91,11 @@ public class Modificar extends JPanel {
 	public JButton getBtnModificar() {
 		return btnModificar;
 	}
+	
+	public JList<Personas> getJlist() {
+		return list;
+	}
+	
+	
 
 }

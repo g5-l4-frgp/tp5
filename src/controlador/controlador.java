@@ -4,6 +4,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
+import javax.swing.DefaultListModel;
+import javax.swing.JList;
+
 import presentacion_vista.Agregar;
 import presentacion_vista.Listar;
 import presentacion_vista.Modificar;
@@ -18,6 +21,8 @@ public class controlador implements ActionListener {
 	private Listar ventanaListar;
 	private negocio_personas pNeg= new negocio_personas();
 	private ArrayList<Personas> listaPersonas;
+	private DefaultListModel<Personas> mlist;
+    private JList<Personas> list;
 //	public controlador(Ventana_principal vista,negocio_personas pNeg,Listar ventanaListar,Agregar ventanaAgregar
 //) {
 //		this.Ventana_principal = vista;
@@ -32,10 +37,11 @@ public class controlador implements ActionListener {
 					this.ventanaAgregar.getBtnAgregar().addActionListener(a->ventanaAgregarPersona(a));
 				}
 	
-public controlador(Modificar ventanaModificar) {
+   public controlador(Modificar ventanaModificar) {
 	
 		this.VentanaModificar=ventanaModificar;
 		this.VentanaModificar.getBtnModificar().addActionListener(a->EventoModificar(a));
+		this.VentanaModificar.getJlist();
 		
 }
 	private void ventanaAgregarPersona(ActionEvent a) {
@@ -60,6 +66,24 @@ public controlador(Modificar ventanaModificar) {
 		this.ventanaAgregar.mostrarMensaje(mensaje);
 		
 	
+	}
+	
+      private void cargarModificar() {
+		
+		pNeg= new negocio_personas();
+		listaPersonas= new ArrayList<Personas>();
+		listaPersonas= pNeg.Obtener_lista_usuarios();
+		for(Personas p : listaPersonas) {
+			 Personas x= new Personas();
+			 x.setNombre(p.getNombre());
+			 x.setApellido(p.getApellido());
+			 x.setDni(p.getDni());
+			 mlist.addElement(x);
+		
+		}
+		
+	      list.setModel(mlist);
+		
 	}
 	
 	private void EventoModificar(ActionEvent a) {
