@@ -65,8 +65,6 @@ private String[] nombreColumnas = {"Nombre completo","Dni"};
 		
 			
 	}
-	
-
 
 	public void llenarTabla(List<Personas> personasEnTabla) {
 		this.getModelPersonas().setRowCount(0); //Para vaciar la tabla

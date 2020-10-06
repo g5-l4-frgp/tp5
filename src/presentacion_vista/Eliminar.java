@@ -10,9 +10,11 @@ import javax.swing.JLabel;
 import java.awt.Font;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
+import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.List;
 import java.awt.event.ActionEvent;
 
 public class Eliminar extends JPanel {
@@ -20,6 +22,26 @@ public class Eliminar extends JPanel {
 	private negocio_personas pNeg = new negocio_personas();
 	private ArrayList<Personas> personasEnTabla = new ArrayList<Personas>();
 	private JButton btnEliminar = new JButton("Eliminar");
+	JList<Personas> list = new JList<Personas>();
+	public JList<Personas> getList() {
+		return list;
+	}
+
+	public void setList(JList<Personas> list) {
+		this.list = list;
+	}
+
+	private DefaultListModel<Personas> modelEliminar = new DefaultListModel<Personas>();
+	public DefaultListModel<Personas> getModelEliminar() {
+		return modelEliminar;
+	}
+
+	public void setModelEliminar(DefaultListModel<Personas> modelEliminar) {
+		this.modelEliminar = modelEliminar;
+	}
+
+
+
 	public JButton getBtnEliminar() {
 		return btnEliminar;
 	}
@@ -54,17 +76,14 @@ public class Eliminar extends JPanel {
 		lblEliminar.setFont(new Font("Tahoma", Font.BOLD, 12));
 		lblEliminar.setBounds(144, 33, 111, 14);
 		add(lblEliminar);
-		
-		
-		
-		JTable list = new JTable();
 		list.setBounds(80, 54, 270, 190);
 		add(list);
 		this.personasEnTabla = (ArrayList<Personas>) pNeg.Obtener_lista_usuarios();
-		
+		llenarLista(personasEnTabla);
+		list.setModel(modelEliminar);
 		btnEliminar.setFont(new Font("Tahoma", Font.BOLD, 12));
 		
-
+		
 		
 		btnEliminar.setBounds(129, 253, 126, 30);
 		add(btnEliminar);
@@ -73,21 +92,21 @@ public class Eliminar extends JPanel {
 	
 	
 	
-	public String ObtenerDni_de_cadena (String cadena) {
+	
+	public void llenarLista(List<Personas> personasEnTabla) {
+		this.getModelEliminar().clear(); //borrar lista
+	
+		for (Personas p : personasEnTabla)
+		{			
+			this.modelEliminar.addElement(p);		
+		}
 		
-		String s = "";
-		char[] aux = cadena.toCharArray();
-		boolean b = false;
-		boolean b2 = true;
+	}
+
+	public void mostrarMensaje(String mensaje) {
+		// TODO Auto-generated method stub
+		JOptionPane.showMessageDialog(null, mensaje);
 		
-		for (int x=0;x<aux.length;x++) 
-		{
-			if(aux[x] == ',') b2=false;
-			if(aux[x] == ':') b=true;
-			if (b&&b2&&aux[x] != ':'&&aux[x] != ' ') 
-				s+=Character.toString(aux[x]);					
-		}		
-		return s;
 	}
 
 }

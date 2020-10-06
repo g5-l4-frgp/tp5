@@ -2,11 +2,14 @@ package controlador;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
-
+import java.util.List;
 
 import javax.swing.JOptionPane;
-
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.DefaultListModel;
 import javax.swing.JList;
 
@@ -29,39 +32,65 @@ public class controlador implements ActionListener {
 	private ArrayList<Personas> listaPersonas;
 	private DefaultListModel<Personas> mlist;
     private JList<Personas> list;
-//	public controlador(Ventana_principal vista,negocio_personas pNeg,Listar ventanaListar,Agregar ventanaAgregar
-//) {
-//		this.Ventana_principal = vista;
-//		this.pNeg = pNeg;
-//		this.ventanaAgregar.getBtnAgregar().addActionListener(a->ventanaAgregarPersona(a));
-//
-//
-//	}
+    private Personas persona = new Personas();
+
 	public controlador(Agregar ventanaAgregar) 
-				{
-					this.ventanaAgregar=ventanaAgregar;
-					this.ventanaAgregar.getBtnAgregar().addActionListener(a->ventanaAgregarPersona(a));
-				}
+	{
+		this.ventanaAgregar=ventanaAgregar;
+		this.ventanaAgregar.getBtnAgregar().addActionListener(a->ventanaAgregarPersona(a));
+	}
 
 	public controlador(Listar pan_listar) {
 		
-		this.ventanaListar=pan_listar;
+		this.ventanaListar = pan_listar;
 		this.refrescarTabla();
 	}
-	public controlador(presentacion_vista.Eliminar pan_eliminar) {
-		this.ventanaEliminar=pan_eliminar;
-		this.ventanaEliminar.getBtnEliminar().addActionListener(a->ventanaEliminar(a));
+	
+	public controlador(Eliminar pan_eliminar) {
+		this.ventanaEliminar = pan_eliminar;
+		this.ventanaEliminar.getBtnEliminar().addActionListener(a->Eliminar(a));
 		// TODO Auto-generated constructor stub
 	}
-
 	
+   private void Eliminar(ActionEvent a) {
+	   DefaultListModel modelo = (DefaultListModel) this.ventanaEliminar.getModelEliminar();
+	   int index = this.ventanaEliminar.getList().getSelectedIndex();
+	   Personas personas = (Personas)modelo.getElementAt(index);
+	   boolean estado = pNeg.EliminarPersona(personas.getDni());
+	   String mensaje;
+		if(estado == true)
+		{
+			mensaje="Persona Eliminada";
+			modelo.remove(index);
+		}
+		
+		else
+			mensaje="Persona no pudo ser modificada";
+		
+		ventanaEliminar.mostrarMensaje(mensaje);
+	   
+	}
+   
+
    public controlador(Modificar ventanaModificar) {
 	
-		this.VentanaModificar=ventanaModificar;
-		this.VentanaModificar.getBtnModificar().addActionListener(a->EventoModificar(a));
-		this.VentanaModificar.getJlist();
+	   this.VentanaModificar = ventanaModificar;
+	   DefaultListModel modelo = (DefaultListModel) this.VentanaModificar.getModelModificar();
+	   this.VentanaModificar.list.addMouseListener(new MouseAdapter() {
+		   public void mouseClicked(MouseEvent evt) {
+			   JList list = (JList)evt.getSource();
+			   if (evt.getClickCount() == 1){
+				   int index = VentanaModificar.getList().getSelectedIndex();
+				   Personas personas = (Personas)modelo.getElementAt(index);
+				   VentanaModificar.txtApellido.setText(personas.getApellido());
+				   VentanaModificar.txtNombre.setText(personas.getNombre());
+				   VentanaModificar.txtDni.setText(personas.getDni());
+			   }
+		   }
+	});
+	   this.VentanaModificar.getBtnModificar().addActionListener(a->EventoModificar(a));
 		
-}
+   }
 
 	private void ventanaAgregarPersona(ActionEvent a) {
 		String nombre = this.ventanaAgregar.getNombre_textField().getText();
@@ -88,62 +117,41 @@ public class controlador implements ActionListener {
 	
 	}
 	
-
-	public void ventanaEliminar(ActionEvent s)
-	{
-		boolean estado=false;
-		int[] filasSeleccionadas =  ObtenerDni_de_cadena(this.ventanaEliminar.getPersonasEnTabla().getSelectedValue().toString())))
-		for (int fila : filasSeleccionadas)
-		{
-			estado = pNeg.delete(this.personasEnTabla.get(fila));
-			if(estado==true)
-			{
-				String mensaje="Persona eliminada con exito";
-				this.ventanaPrincipal.mostrarMensaje(mensaje);
-			}
-		}
-		this.refrescarTabla();
-
-      private void cargarModificar() {
-		
-		pNeg= new negocio_personas();
-		listaPersonas= new ArrayList<Personas>();
-		listaPersonas= pNeg.Obtener_lista_usuarios();
-		for(Personas p : listaPersonas) {
-			 Personas x= new Personas();
-			 x.setNombre(p.getNombre());
-			 x.setApellido(p.getApellido());
-			 x.setDni(p.getDni());
-			 mlist.addElement(x);
-		
-		}
-		
-	      list.setModel(mlist);
-		
-	}
 	
 	private void EventoModificar(ActionEvent a) {
-		String nombre= this.VentanaModificar.getTxtNombre().getText();
-		String dni= VentanaModificar.getTxtDni().getText();
-		String apellido= VentanaModificar.getTxtApellido().getText();
+		persona.setNombre(this.VentanaModificar.getTxtNombre().getText());
+		persona.setDni(VentanaModificar.getTxtDni().getText());
+		persona.setApellido(VentanaModificar.getTxtApellido().getText());
+		boolean estado = pNeg.ModificarPersona(persona);
+		String mensaje;
+		if(estado == true)
+		{
+			mensaje="Persona Modificada";
+			VentanaModificar.txtApellido.setText("");
+			VentanaModificar.txtNombre.setText("");
+			VentanaModificar.txtDni.setText("");
+	
+		}
 		
-
+		else
+			mensaje="Persona no pudo ser modificada";
+		
+		VentanaModificar.mostrarMensaje(mensaje);
 	}
 
 	
-	public void actionPerformed(ActionEvent e) {
-		
-		if (pNeg.EliminarPersona(ObtenerDni_de_cadena(list.getSelectedValue().toString())))
-			JOptionPane.showMessageDialog(null,"Usuario Eliminado" );
-		else JOptionPane.showMessageDialog(null,"ERROR" );		
-	}
 	
 	public void refrescarTabla()
 	{
 		this.listaPersonas = (ArrayList<Personas>) pNeg.Obtener_lista_usuarios();
 		this.ventanaListar.llenarTabla(listaPersonas);
 	}
+
 	@Override
-	public void actionPerformed(ActionEvent arg0) {}
+	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
 	
 }

@@ -56,6 +56,7 @@ public class Ventana_principal extends JFrame {
 				contentPane.add(pan_modificar);
 				contentPane.repaint();
 				contentPane.revalidate();
+				controlador controlador = new controlador(pan_modificar);
 				
 			}
 		});

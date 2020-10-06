@@ -8,7 +8,7 @@ import java.awt.Color;
 import java.awt.Font;
 import javax.swing.JTextField;
 
-import com.sun.glass.ui.TouchInputSupport;
+
 
 import controlador.controlador;
 import entidad.Personas;

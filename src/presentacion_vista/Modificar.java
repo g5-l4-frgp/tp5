@@ -2,10 +2,12 @@ package presentacion_vista;
 
 import javax.swing.JPanel;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import java.awt.Font;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JTextField;
 import javax.swing.event.ListSelectionListener;
@@ -17,22 +19,43 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.JTable;
 
 public class Modificar extends JPanel {
-	private JTextField txtNombre;
-	private JTextField txtApellido;
-	private JTextField txtDni;
+	public JTextField txtNombre;
+	public JTextField txtApellido;
+	public JTextField txtDni;
 	private JButton btnModificar;
-    private JList<Personas> list;
+    public JList<Personas> list;
+	private DefaultListModel<Personas> modelModificar = new DefaultListModel<Personas>();
+	private ArrayList<Personas> personasEnTabla;
 	
+	public JList<Personas> getList() {
+		return list;
+	}
+
+
+	public void setList(JList<Personas> list) {
+		this.list = list;
+	}
+
+
+	public DefaultListModel<Personas> getModelModificar() {
+		return modelModificar;
+	}
+
+
+	public void setModelModificar(DefaultListModel<Personas> modelModificar) {
+		this.modelModificar = modelModificar;
+	}
+
+
 	public Modificar() {
 		setLayout(null);
 		
-		 list = new JList();
-		list.addListSelectionListener(new ListSelectionListener() {
-			public void valueChanged(ListSelectionEvent e) {
-			
-				
-			}
-		});
+		list = new JList();
+		negocio_personas pNeg = new negocio_personas();
+		this.personasEnTabla = (ArrayList<Personas>) pNeg.Obtener_lista_usuarios();
+		llenarLista(personasEnTabla);
+		list.setModel(modelModificar);
+		
 		list.setBounds(10, 11, 380, 187);
 		add(list);
 		
@@ -94,6 +117,22 @@ public class Modificar extends JPanel {
 	
 	public JList<Personas> getJlist() {
 		return list;
+	}
+	
+	public void llenarLista(List<Personas> personasEnTabla) {
+		this.getModelModificar().clear(); //borrar lista
+	
+		for (Personas p : personasEnTabla)
+		{			
+			this.modelModificar.addElement(p);		
+		}
+		
+	}
+
+
+	public void mostrarMensaje(String mensaje) {
+		// TODO Auto-generated method stub
+		JOptionPane.showMessageDialog(null, mensaje);
 	}
 	
 	

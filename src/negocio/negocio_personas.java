@@ -31,6 +31,9 @@ public class negocio_personas implements negocio_personas_interface{
 		// TODO Auto-generated method stub
 		return dao_p.EliminarPersona(dni);
 	}
+	public boolean ModificarPersona(Personas persona) {
+		return dao_p.ModificarPersona(persona);
+	}
 	
 }
 		
